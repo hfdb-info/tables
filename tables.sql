@@ -28,6 +28,14 @@ foreign key (SKU) references Products on delete cascade,
 check (SKU > 0 and price >= 0 and (promoID is not null) and (couponID is not null) and (ts is not null) and (expiration is not null))
 );
 
+CREATE TABLE mostrecentupdate (
+SKU integer,
+ts timestamptz,
+primary key (SKU, ts),
+foreign key (SKU) references Products on delete cascade,
+check (SKU > 0 and (ts is not null))
+);
+
 create view latestprice as select retailprices.sku as sku,price,ts from (
 retailprices inner join (
 select sku, max(ts) as maxTS from retailprices group by sku
