@@ -33,7 +33,8 @@ SKU integer,
 ts timestamptz,
 primary key (SKU, ts),
 foreign key (SKU) references Products on delete cascade,
-check (SKU > 0 and (ts is not null))
+check (SKU > 0 and (ts is not null)),
+unique (SKU)
 );
 
 create view latestprice as select retailprices.sku as sku,price,ts from (
